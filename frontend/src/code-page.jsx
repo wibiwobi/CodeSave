@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Editor from "@monaco-editor/react";
 
 const CodePage = () => {
-  const [programmingLanguage, setProgrammingLanguage] = useState("c++");
+  const [programmingLanguage, setProgrammingLanguage] = useState("cpp");
 
   const sendDataToCallBackUseStateVariable = (programmingLanguage) => {
     setProgrammingLanguage(programmingLanguage.toLowerCase());

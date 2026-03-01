@@ -6,7 +6,12 @@ const DropDownMenu = ({ sendDataToParent }) => {
   const [activateMenu, setActivateMenu] = useState(false);
   const [chosenProgrammingLanguage, setChosenProgrammingLanguage] =
     useState("C++");
-  const programmingLanguages = ["JavaScript", "Python", "Java", "C", "C++"];
+  const monacoProgrammingLanguageCodes = {
+    JavaScript: "javascript",
+    Python: "python",
+    Java: "java",
+    "C++": "cpp",
+  };
 
   return (
     <>
@@ -20,18 +25,22 @@ const DropDownMenu = ({ sendDataToParent }) => {
         </button>
         {activateMenu ? (
           <div className="menu w-25 h-125 absolute bg-white left-0 top-full border border-black rounded-[10px] flex flex-col overflow-y-auto">
-            {programmingLanguages.map((element, index) => (
-              <button
-                className="w-full h-7.5 hover:bg-gray-300 rounded-[10px] cursor-pointer"
-                key={index}
-                onClick={(event) => {
-                  setChosenProgrammingLanguage(event.target.innerText);
-                  sendDataToParent(event.target.innerText);
-                }}
-              >
-                {element}
-              </button>
-            ))}
+            {Object.keys(monacoProgrammingLanguageCodes).map(
+              (element, index) => (
+                <button
+                  className="w-full h-7.5 hover:bg-gray-300 rounded-[10px] cursor-pointer"
+                  key={index}
+                  onClick={(event) => {
+                    setChosenProgrammingLanguage(event.target.innerText);
+                    sendDataToParent(
+                      monacoProgrammingLanguageCodes[event.target.innerText],
+                    );
+                  }}
+                >
+                  {element}
+                </button>
+              ),
+            )}
           </div>
         ) : null}
       </div>
