@@ -36,8 +36,6 @@ const CodePage = () => {
   const [saveButtonIsPressed, setSaveButtonIsPressed] = useState(false);
   const [versionName, setVersionName] = useState("");
 
-  const [programmingLanguage, setProgrammingLanguage] = useState("cpp");
-
 
   const options = {
     fontFamily: "'JetBrains Mono', Consolas, 'Courier New', monospace",
