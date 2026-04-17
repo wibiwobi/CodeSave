@@ -23,7 +23,7 @@ import {
 } from "./utils/client-utils.js";
 
 const CodePage = () => {
-<<<<<<< HEAD
+
   const [programmingLanguage, setProgrammingLanguage] = useState("javascript");
   const [sourceCode, setSourceCode] = useState("");
   const [linkID, setLinkID] = useState(undefined);
@@ -35,9 +35,9 @@ const CodePage = () => {
   const [savingLimitReached, setSavingLimitReached] = useState(false);
   const [saveButtonIsPressed, setSaveButtonIsPressed] = useState(false);
   const [versionName, setVersionName] = useState("");
-=======
+
   const [programmingLanguage, setProgrammingLanguage] = useState("cpp");
->>>>>>> 4645d3ee853241dfee7186cf78bb9b7f9fac00dd
+
 
   const options = {
     fontFamily: "'JetBrains Mono', Consolas, 'Courier New', monospace",

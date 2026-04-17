@@ -16,7 +16,11 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-<<<<<<< HEAD
+automatic-code-saving.md
+edge-cases.md
+overall-plan.md
+psue.md
+user-accounts.md
 backend/node_modules/*
 
 

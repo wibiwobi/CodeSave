@@ -2,12 +2,9 @@ import express from "express";
 import "dotenv/config";
 import cors from "cors";
 import mysql from "mysql2/promise";
-import { nanoid } from "nanoid";
-import { createHash } from "crypto";
 import saveVersionCodeRouter from "./save-version-db.js";
 import saveCodeRouter from "./save-code-db.js";
 const app = express();
-
 
 app.use(cors({
     origin: ["http://localhost:5173"],
@@ -31,7 +28,6 @@ export const db = mysql.createPool({
 app.listen(process.env.PORT, () => {
     console.log("SERVER IS RUNNING");
 })
-
 
 app.use("/code", saveCodeRouter);
 app.use("/version", saveVersionCodeRouter);
