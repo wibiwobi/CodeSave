@@ -73,7 +73,7 @@ const CodePage = () => {
     <>
       <div className="parent-container w-screen h-screen bg-[#0C0C0C] overflow-hidden">
         <div className="header w-full h-[6%] border-b border-white/10 flex items-center px-4 md:px-7">
-          <div className="logo jersey-25-regular text-[13px] md:text-[15px] text-[#C5A882]/60 tracking-[0.18em] uppercase">
+          <div className="logo jersey-25-regular text-[30px] md:text-[30px] text-white tracking-[0.18em] uppercase">
             CodeSave
           </div>
         </div>
