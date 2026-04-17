@@ -1,0 +1,1 @@
+const clip = new ClipboardItem()

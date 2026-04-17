@@ -1,94 +1,216 @@
 import "./main.css";
 import "./drop-down-menu";
 import DropDownMenu from "./drop-down-menu";
-import { useEffect, useState } from "react";
+import { useEffect, useState, version } from "react";
 import Editor from "@monaco-editor/react";
+import { useParams } from "react-router-dom";
+import copyIcon from "./assets/IMAGES/ICONS/copy.svg";
+import checkIcon from "./assets/IMAGES/ICONS/check.svg";
+import {
+  createNewCodeInfo,
+  fetchSourceCodeInfo,
+  updateSourceCodeInfo,
+} from "./utils/code-saving.js";
+
+import { saveVersion } from "./utils/version-saving.js";
+
+import {
+  sendDataToCallBackUseStateVariable,
+  debounceBlock,
+  copyLink,
+  checkSourceCode,
+  disableButtonForTenSeconds,
+} from "./utils/client-utils.js";
 
 const CodePage = () => {
-  const [programmingLanguage, setProgrammingLanguage] = useState("c++");
+  const [programmingLanguage, setProgrammingLanguage] = useState("javascript");
+  const [sourceCode, setSourceCode] = useState("");
+  const [linkID, setLinkID] = useState(undefined);
+  const { id: rawID } = useParams();
+  const id = rawID ?? linkID ?? "";
+  const [codeURL, setCodeURL] = useState("");
+  const [copyIconPressed, setCopyIconPressed] = useState(false);
+  const [saveButtonState, setSaveButtonState] = useState(id == "");
+  const [savingLimitReached, setSavingLimitReached] = useState(false);
+  const [saveButtonIsPressed, setSaveButtonIsPressed] = useState(false);
+  const [versionName, setVersionName] = useState("");
 
-  const sendDataToCallBackUseStateVariable = (programmingLanguage) => {
-    setProgrammingLanguage(programmingLanguage.toLowerCase());
+  const options = {
+    fontFamily: "'JetBrains Mono', Consolas, 'Courier New', monospace",
+    fontSize: 16,
   };
 
+  useEffect(() => {
+    if (!id && sourceCode != "") {
+      createNewCodeInfo(setLinkID, sourceCode, programmingLanguage);
+      setSaveButtonState(false);
+    }
+  }, [sourceCode]);
+
+  useEffect(() => {
+    setCodeURL(`http://localhost:5173/${id}`);
+    if (id && (sourceCode == "" || sourceCode == undefined)) {
+      fetchSourceCodeInfo(id, setSourceCode, setProgrammingLanguage);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (id && sourceCode != "") {
+      updateSourceCodeInfo(sourceCode, id);
+    }
+  }, [sourceCode]);
+
+  useEffect(() => {
+    console.log(id);
+    checkSourceCode(sourceCode, setSaveButtonState, savingLimitReached, id);
+  }, [sourceCode, id]);
+
+  const debounceFunction = debounceBlock(2000);
+
   return (
-    <div class="parent-container w-screen h-screen bg-[#2B303A]">
-      <div className="header w-full h-[7%] bg-[#D64933] mb-5">
-        <div className="logo w-full h-full jersey-25-regular flex flex-column items-center justify-left ">
-          <div className="text ml-1 text-[50px]">CodeSave</div>
-        </div>
-        <div className="settings"></div>
-      </div>
-
-      <div className="main  flex flex-row justify-around items-center p-3 h-[90%] w-full">
-        <div className="code-space h-full w-[70%]">
-          <div className="code-space-header m-2 h-[5%] w-full flex gap-8">
-            <DropDownMenu
-              sendDataToParent={sendDataToCallBackUseStateVariable}
-            />
-            <input
-              className="code-link bg-[#D8D8D8] rounded-[50px] h-full p-4 w-125 text-gray-500 jersey-25-regular"
-              type="text"
-              value={"Type in the editor for the link to appear..."}
-            />
-          </div>
-          <div className="code-editor rounded-[15px] h-[90%] w-full">
-            <Editor
-              className="w-full"
-              language={programmingLanguage}
-              defaultValue="const a = 1;"
-              theme="vs-dark"
-            />
+    <>
+      <div className="parent-container w-screen h-screen bg-[#0C0C0C] overflow-hidden">
+        <div className="header w-full h-[6%] border-b border-white/10 flex items-center px-4 md:px-7">
+          <div className="logo jersey-25-regular text-[13px] md:text-[15px] text-[#C5A882]/60 tracking-[0.18em] uppercase">
+            CodeSave
           </div>
         </div>
 
-        <div className="version-history h-full w-[20%]">
-          <div className="button-container h-[5%] m-2 flex justify-end">
-            <button className="save-button bg-[#EEE5E9] rounded-[50px] h-8.75 w-25 jersey-25-regular tracking-widest">
-              SAVE
-            </button>
+        <div className="main flex flex-col lg:flex-row justify-start lg:justify-around items-stretch p-3 md:p-4 h-[94%] w-full gap-3 md:gap-4 overflow-hidden">
+          <div className="code-space flex flex-col h-[60%] lg:h-full w-full lg:w-[73%]">
+            <div className="code-space-header mb-3 h-[5%] min-h-[36px] w-full flex gap-2 md:gap-4 items-center">
+              <DropDownMenu
+                sendDataToParent={() => {
+                  sendDataToCallBackUseStateVariable(
+                    programmingLanguage,
+                    setProgrammingLanguage,
+                  );
+                }}
+                programmingLanguage={programmingLanguage}
+              />
+              <div className="code-link bg-[#181818] border border-white/10 rounded-lg h-full px-3 md:px-4 flex items-center flex-1 min-w-0 text-[#E8E5DC]/30 jersey-25-regular text-xs md:text-sm tracking-[0.14em] truncate">
+                {codeURL}
+              </div>
+              <div
+                className="copy-button bg-[#181818] border border-white/10 hover:border-white/20 rounded-lg p-2 cursor-pointer transition-all duration-150 shrink-0"
+                onClick={() => {
+                  copyLink(copyIconPressed, setCopyIconPressed, codeURL);
+                }}
+              >
+                <img
+                  className="copy-icon w-4 h-4"
+                  src={copyIcon}
+                  alt="copy-icon"
+                />
+                <img
+                  className="check-icon hidden w-4 h-4"
+                  src={checkIcon}
+                  alt="check-icon"
+                />
+              </div>
+            </div>
+            <div className="code-editor rounded-[14px] overflow-hidden border border-white/10 flex-1 w-full">
+              <Editor
+                className="w-full h-full"
+                language={programmingLanguage}
+                value={`${sourceCode}`}
+                theme="vs-dark"
+                onChange={(value) => {
+                  console.log(value);
+                  console.log(saveButtonState);
+                  debounceFunction(value, setSourceCode);
+                }}
+                options={options}
+              />
+            </div>
           </div>
-          <div className="all-versions bg-[#7C7C7C] rounded-[15px] h-[90%] overflow-y-auto jersey-25-regular ">
-            <div className="version-1 w-60 h-40 m-auto bg-white my-5 rounded-[15px] cursor-pointer flex flex-col justify-center items-center">
-              <div className="version-name text-4xl">Version 1</div>
-              <div className="created-date">January 25 2026</div>
+
+          <div className="version-history flex flex-col h-[38%] lg:h-full w-full lg:w-[22%] min-h-0">
+            <div className="button-container h-8 mb-3 flex justify-end items-center shrink-0">
+              <button
+                className={`save-button bg-[#C5A882] hover:bg-[#d4bc9a] text-[#0C0C0C] transition-all duration-150 rounded-lg h-8 px-5 jersey-25-regular tracking-widest text-[13px] uppercase font-medium
+             ${saveButtonState ? "opacity-40 cursor-not-allowed" : "cursor-pointer"}`}
+                disabled={saveButtonState}
+                onClick={() => setSaveButtonIsPressed(true)}
+              >
+                SAVE
+              </button>
             </div>
-            <div className="version-1 w-60 h-40 m-auto bg-white my-5 rounded-[15px] cursor-pointer flex flex-col justify-center items-center">
-              <div className="version-name text-4xl">Version 1</div>
-              <div className="created-date">January 25 2026</div>
-            </div>
-            <div className="version-1 w-60 h-40 m-auto bg-white my-5 rounded-[15px] cursor-pointer flex flex-col justify-center items-center">
-              <div className="version-name text-4xl">Version 1</div>
-              <div className="created-date">January 25 2026</div>
-            </div>
-            <div className="version-1 w-60 h-40 m-auto bg-white my-5 rounded-[15px] cursor-pointer flex flex-col justify-center items-center">
-              <div className="version-name text-4xl">Version 1</div>
-              <div className="created-date">January 25 2026</div>
-            </div>
-            <div className="version-1 w-60 h-40 m-auto bg-white my-5 rounded-[15px] cursor-pointer flex flex-col justify-center items-center">
-              <div className="version-name text-4xl">Version 1</div>
-              <div className="created-date">January 25 2026</div>
-            </div>
-            <div className="version-1 w-60 h-40 m-auto bg-white my-5 rounded-[15px] cursor-pointer flex flex-col justify-center items-center">
-              <div className="version-name text-4xl">Version 1</div>
-              <div className="created-date">January 25 2026</div>
-            </div>
-            <div className="version-1 w-60 h-40 m-auto bg-white my-5 rounded-[15px] cursor-pointer flex flex-col justify-center items-center">
-              <div className="version-name text-4xl">Version 1</div>
-              <div className="created-date">January 25 2026</div>
-            </div>
-            <div className="version-1 w-60 h-40 m-auto bg-white my-5 rounded-[15px] cursor-pointer flex flex-col justify-center items-center">
-              <div className="version-name text-4xl">Version 1</div>
-              <div className="created-date">January 25 2026</div>
-            </div>
-            <div className="version-1 w-60 h-40 m-auto bg-white my-5 rounded-[15px] cursor-pointer flex flex-col justify-center items-center">
-              <div className="version-name text-4xl">Version 1</div>
-              <div className="created-date">January 25 2026</div>
+            <div className="all-versions bg-[#181818] border border-white/10 rounded-[14px] flex-1 overflow-y-auto flex flex-col gap-2 p-3 min-h-0">
+              <div className="version-card w-full bg-[#242424] hover:bg-[#2a2a2a] border border-white/10 hover:border-white/20 transition-all duration-150 rounded-lg cursor-pointer flex flex-col justify-center items-start px-4 md:px-5 py-3 md:py-4 shrink-0">
+                <div className="version-name text-[#E8E5DC] jersey-25-regular text-[15px] md:text-[17px] tracking-wide">
+                  Version 1
+                </div>
+                <div className="created-date text-[#C5A882]/50 jersey-25-regular text-[11px] tracking-[0.14em] uppercase mt-1">
+                  January 25 2026
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
+        {saveButtonIsPressed ? (
+          <div className="w-screen h-screen absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-1000 px-4">
+            <div className="w-full max-w-[340px] bg-[#181818] border border-white/10 rounded-[14px] overflow-hidden">
+              <div className="px-5 md:px-7 pt-6 pb-5 border-b border-white/6">
+                <div className="text-[11px] tracking-[0.18em] uppercase text-[#C5A882]/60 mb-1.5 jersey-25-regular">
+                  CodeSave
+                </div>
+                <h2 className="text-[24px] md:text-[26px] text-[#E8E5DC] tracking-wide jersey-25-regular font-normal">
+                  Save Version
+                </h2>
+              </div>
+
+              <div className="px-5 md:px-7 pt-5 pb-6">
+                <label
+                  className="block text-[11px] tracking-[0.14em] uppercase text-[#C5A882]/70 mb-2 jersey-25-regular"
+                  htmlFor="version-name"
+                >
+                  Version name
+                </label>
+                <input
+                  className="w-full bg-[#242424] border border-white/10 rounded-lg text-[#E8E5DC] text-sm px-3.5 py-2.5 outline-none focus:border-[#C5A882]/45 transition-colors jersey-25-regular tracking-wide"
+                  id="version-name"
+                  name="version-name"
+                  placeholder="e.g. auth-flow-fix"
+                  onChange={(e) => {
+                    setVersionName(e);
+                  }}
+                />
+                <p className="text-[11px] text-white/25 mt-1.5 tracking-wide">
+                  Give this snapshot a meaningful name
+                </p>
+              </div>
+
+              <div className="px-5 md:px-7 pb-6 flex gap-2.5">
+                <button
+                  className="flex-1 bg-transparent border border-white/20 text-white/50 hover:border-white/45 hover:text-white/85 rounded-lg py-2.5 text-[15px] tracking-widest uppercase jersey-25-regular transition-all duration-150 cursor-pointer"
+                  onClick={() => {
+                    setSaveButtonIsPressed(false);
+                  }}
+                >
+                  Exit
+                </button>
+                <button
+                  className="flex-1 bg-[#C5A882] hover:bg-[#d4bc9a] border-none text-[#0C0C0C] rounded-lg py-2.5 text-[15px] tracking-widest uppercase jersey-25-regular font-medium transition-all duration-150 cursor-pointer"
+                  disabled={versionName == ""}
+                  onClick={() => {
+                    setSaveButtonIsPressed(false);
+                    disableButtonForTenSeconds(
+                      setSaveButtonState,
+                      setSavingLimitReached,
+                    );
+                    saveVersion(versionName, id);
+                  }}
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </div>
-    </div>
+    </>
   );
 };
 

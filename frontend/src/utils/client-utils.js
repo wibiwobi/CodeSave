@@ -1,0 +1,56 @@
+// ! UPDATE PROGRAMMING LANGAUGE
+export const sendDataToCallBackUseStateVariable = (programmingLanguage, setProgrammingLanguage) => {
+    setProgrammingLanguage(programmingLanguage.toLowerCase());
+};
+
+// ! DEBOUNCE
+export const debounceBlock = (delay) => {
+    let timerID;
+    return (value, setSourceCode) => {
+        clearTimeout(timerID);
+        timerID = setTimeout(() => {
+            setSourceCode(value);
+        }, delay);
+    };
+};
+
+// ! SAVING LINK TO CLIPBOARD
+export const copyLink = async (copyIconPressed, setCopyIconPressed, codeURL) => {
+    if (!copyIconPressed && codeURL != "http://localhost:5173/") {
+        const copyIcon = document.querySelector(".copy-icon");
+        const checkIcon = document.querySelector(".check-icon");
+
+        setCopyIconPressed(true); // prevents from clicking the button again ang again
+        copyIcon.classList.toggle("hidden");
+        checkIcon.classList.remove("hidden");
+
+        console.log(codeURL);
+
+        // put the link to clipbaord
+        const data = {
+            "text/plain": codeURL,
+        };
+
+        const clipboardItem = new ClipboardItem(data);
+        await navigator.clipboard.write([clipboardItem]);
+    }
+};
+
+// ! DEBOUNCE
+export const checkSourceCode = (sourceCode, setSaveButtonState, savingLimitReached, linkID) => {
+    const IS_EMPTY = "";
+    if (sourceCode == IS_EMPTY || savingLimitReached || linkID == IS_EMPTY) {
+        setSaveButtonState(true); // disable the button if the editory is empty
+    } else {
+        setSaveButtonState(false);
+    }
+};
+
+
+export const disableButtonForTenSeconds = (setSaveButtonState, setSavingLimitReached) => {
+    setSavingLimitReached(true)
+    setSaveButtonState(true);
+    setTimeout(() => {
+        setSaveButtonState(false);
+    }, 10000)
+};

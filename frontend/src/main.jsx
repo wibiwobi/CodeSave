@@ -9,6 +9,10 @@ const router = createBrowserRouter([
     element: <CodePage />,
   },
   {
+    path: "/:id",
+    element: <CodePage />,
+  },
+  {
     path: "/settings",
   },
 ]);
