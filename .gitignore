@@ -16,6 +16,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+<<<<<<< HEAD
 backend/node_modules/*
 
 
@@ -25,6 +26,16 @@ dist-ssr
 ca.pem 
 
 
+=======
+node_modules/
+backend/node_modules/
+backend/node_modules/.package-lock.json
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+>>>>>>> 4645d3ee853241dfee7186cf78bb9b7f9fac00dd
 .vscode/*
 !.vscode/extensions.json
 .idea

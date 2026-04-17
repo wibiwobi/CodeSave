@@ -4,6 +4,11 @@ import { useState } from "react";
 
 const DropDownMenu = ({ sendDataToParent, programmingLanguage }) => {
   const [activateMenu, setActivateMenu] = useState(false);
+<<<<<<< HEAD
+=======
+  const [chosenProgrammingLanguage, setChosenProgrammingLanguage] =
+    useState("C++");
+>>>>>>> 4645d3ee853241dfee7186cf78bb9b7f9fac00dd
   const monacoProgrammingLanguageCodes = {
     JavaScript: "javascript",
     Python: "python",
@@ -29,6 +34,10 @@ const DropDownMenu = ({ sendDataToParent, programmingLanguage }) => {
                   className="w-full h-7.5 hover:bg-gray-300 rounded-[10px] cursor-pointer"
                   key={index}
                   onClick={(event) => {
+<<<<<<< HEAD
+=======
+                    setChosenProgrammingLanguage(event.target.innerText);
+>>>>>>> 4645d3ee853241dfee7186cf78bb9b7f9fac00dd
                     sendDataToParent(
                       monacoProgrammingLanguageCodes[event.target.innerText],
                     );
