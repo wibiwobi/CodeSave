@@ -202,7 +202,7 @@ const CodePage = () => {
                       setSaveButtonState,
                       setSavingLimitReached,
                     );
-                    saveVersion(versionName, id);
+                    console.log(saveVersion(versionName, id));
                   }}
                 >
                   Save
