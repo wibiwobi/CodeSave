@@ -2,12 +2,13 @@ export const saveVersion = async (versionName, linkID) => {
     try {
         const requestOptions = {
             method: "POST",
-            body: JSON.stringify({ codeVersionName: versionName, id: linkID }),
+            body: JSON.stringify({ versionName: versionName, linkID: linkID }),
             headers: { "Content-Type": "application/json" },
         };
         const result = await fetch("http://localhost:8000/version/save-version", requestOptions);
         const message = await result.json();
-        return message;
+        console.log(message);
+        console.log("yellow");
     }
     catch (error) {
         console.error(error);
