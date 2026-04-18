@@ -12,10 +12,4 @@ export const saveVersion = async (versionName, linkID) => {
     catch (error) {
         console.error(error);
     }
-    finally {
-        /* const {createdVersionName, dateCreated, timeCreated} = await result.json(); */
-        
-        /* return [createdVersionName, dateCreated, timeCreated]; */
-        
-    }
 }
