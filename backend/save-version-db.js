@@ -3,8 +3,13 @@ const router = express.Router();
 
 
 
-router.get("/save-code", (req, res) => {
-    console.log("HEllo");
+router.post(("/save-version"), (req, res) => {
+    // Get the req params
+    const { versionName, linkID } = req.body;
+    // query the db
+
+    // send the response to front end
+    res.send({ message: "working" });
 
 });
 

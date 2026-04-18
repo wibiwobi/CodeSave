@@ -4,7 +4,6 @@ import { useState } from "react";
 
 const DropDownMenu = ({ sendDataToParent, programmingLanguage }) => {
   const [activateMenu, setActivateMenu] = useState(false);
-
   const [chosenProgrammingLanguage, setChosenProgrammingLanguage] =
     useState("C++");
 

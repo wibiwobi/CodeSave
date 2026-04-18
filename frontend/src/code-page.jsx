@@ -23,7 +23,6 @@ import {
 } from "./utils/client-utils.js";
 
 const CodePage = () => {
-
   const [programmingLanguage, setProgrammingLanguage] = useState("javascript");
   const [sourceCode, setSourceCode] = useState("");
   const [linkID, setLinkID] = useState(undefined);
@@ -35,7 +34,6 @@ const CodePage = () => {
   const [savingLimitReached, setSavingLimitReached] = useState(false);
   const [saveButtonIsPressed, setSaveButtonIsPressed] = useState(false);
   const [versionName, setVersionName] = useState("");
-
 
   const options = {
     fontFamily: "'JetBrains Mono', Consolas, 'Courier New', monospace",
@@ -80,7 +78,7 @@ const CodePage = () => {
 
         <div className="main flex flex-col lg:flex-row justify-start lg:justify-around items-stretch p-3 md:p-4 h-[94%] w-full gap-3 md:gap-4 overflow-hidden">
           <div className="code-space flex flex-col h-[60%] lg:h-full w-full lg:w-[73%]">
-            <div className="code-space-header mb-3 h-[5%] min-h-[36px] w-full flex gap-2 md:gap-4 items-center">
+            <div className="code-space-header mb-3 h-[5%] min-h-9 w-full flex gap-2 md:gap-4 items-center">
               <DropDownMenu
                 sendDataToParent={() => {
                   sendDataToCallBackUseStateVariable(
@@ -153,7 +151,7 @@ const CodePage = () => {
 
         {saveButtonIsPressed ? (
           <div className="w-screen h-screen absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-1000 px-4">
-            <div className="w-full max-w-[340px] bg-[#181818] border border-white/10 rounded-[14px] overflow-hidden">
+            <div className="w-full max-w-85 bg-[#181818] border border-white/10 rounded-[14px] overflow-hidden">
               <div className="px-5 md:px-7 pt-6 pb-5 border-b border-white/6">
                 <div className="text-[11px] tracking-[0.18em] uppercase text-[#C5A882]/60 mb-1.5 jersey-25-regular">
                   CodeSave
@@ -176,7 +174,7 @@ const CodePage = () => {
                   name="version-name"
                   placeholder="e.g. auth-flow-fix"
                   onChange={(e) => {
-                    setVersionName(e);
+                    setVersionName(e.target.value);
                   }}
                 />
                 <p className="text-[11px] text-white/25 mt-1.5 tracking-wide">
@@ -202,6 +200,7 @@ const CodePage = () => {
                       setSaveButtonState,
                       setSavingLimitReached,
                     );
+
                     saveVersion(versionName, id);
                   }}
                 >
