@@ -9,6 +9,7 @@ export const saveVersion = async (versionName, linkID) => {
         const message = await result.json();
         console.log(message);
         console.log("yellows");
+        console.log("UI BRANCH")
     }
     catch (error) {
         console.error(error);
