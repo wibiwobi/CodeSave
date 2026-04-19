@@ -200,16 +200,9 @@ const CodePage = () => {
                       setSaveButtonState,
                       setSavingLimitReached,
                     );
-<<<<<<< HEAD
-                    console.log(saveVersion(versionName, id));
-=======
-<<<<<<< HEAD
 
                     saveVersion(versionName, id);
-=======
-                    console.log(saveVersion(versionName, id));
->>>>>>> version-saving
->>>>>>> main
+                    console.log("MAIN BRANCH");
                   }}
                 >
                   Save
