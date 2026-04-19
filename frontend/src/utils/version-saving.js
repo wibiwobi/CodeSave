@@ -8,6 +8,7 @@ export const saveVersion = async (versionName, linkID) => {
         const result = await fetch("http://localhost:8000/version/save-version", requestOptions);
         const message = await result.json();
         console.log(message);
+        console.log("yellows");
     }
     catch (error) {
         console.error(error);
