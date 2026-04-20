@@ -203,6 +203,7 @@ const CodePage = () => {
 
                     saveVersion(versionName, id);
                     console.log(saveVersion(versionName, id));
+                    console.log("UI BRANCH");
                   }}
                 >
                   Save
