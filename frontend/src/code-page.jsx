@@ -202,7 +202,6 @@ const CodePage = () => {
                     );
 
                     saveVersion(versionName, id);
-                    console.log("MAIN BRANCH");
                   }}
                 >
                   Save
