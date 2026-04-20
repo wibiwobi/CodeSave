@@ -202,8 +202,6 @@ const CodePage = () => {
                     );
 
                     saveVersion(versionName, id);
-                    console.log(saveVersion(versionName, id));
-                    console.log("VERSION-SAVING BRANCH");
                   }}
                 >
                   Save
