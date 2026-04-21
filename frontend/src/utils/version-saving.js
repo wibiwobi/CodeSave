@@ -1,5 +1,7 @@
-export const saveVersion = async (versionName, linkID) => {
+export const saveVersion = async (versionName, linkID, saveButtonState) => {
     try {
+        if (saveButtonState) { return; }
+
         const requestOptions = {
             method: "POST",
             body: JSON.stringify({ versionName: versionName, linkID: linkID }),
