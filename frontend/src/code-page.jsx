@@ -12,7 +12,7 @@ import {
   updateSourceCodeInfo,
 } from "./utils/code-saving.js";
 
-import { saveVersion } from "./utils/version-saving.js";
+import { saveVersion, fetchVersionBlocks } from "./utils/version-saving.js";
 
 import {
   sendDataToCallBackUseStateVariable,
@@ -61,9 +61,12 @@ const CodePage = () => {
   }, [sourceCode]);
 
   useEffect(() => {
-    console.log(id);
     checkSourceCode(sourceCode, setSaveButtonState, savingLimitReached, id);
   }, [sourceCode, id]);
+
+  useEffect(() => {
+    fetchVersionBlocks(id);
+  }, [id]);
 
   const debounceFunction = debounceBlock(2000);
 

@@ -25,6 +25,7 @@ export const createNewCodeInfo = async (setLinkID, sourceCode, programmingLangua
 // !
 export const fetchSourceCodeInfo = async (id, setSourceCode, setProgrammingLanguage) => {
     try {
+        console.log("FETCH");
         const requestOptions = {
             method: "POST",
             body: JSON.stringify({ id: id }),

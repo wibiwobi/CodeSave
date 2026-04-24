@@ -11,9 +11,9 @@ router.post(("/save-version"), (req, res) => {
     res.send({ message: "working" });
 });
 
-
-
-
+router.post(("/fetch-version-blocks"), (req, res) => {
+    res.send({ message: "FETCHING WORKS" });
+});
 
 
 export default router;

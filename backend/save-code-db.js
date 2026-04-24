@@ -28,6 +28,7 @@ router.post(('/create-code-info'), async (req, res) => {
 
 router.post("/fetch-source-code", async (req, res) => {
     try {
+        console.log("FETCH");
 
         const { id } = req.body;
         const [sourceCodeInfo] = await db.query("SELECT source_code, programming_language FROM CODE WHERE link_id = ?", [id]);
