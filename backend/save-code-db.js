@@ -50,7 +50,6 @@ router.post("/fetch-source-code", async (req, res) => {
 router.put("/update-source-code", async (req, res) => {
     try {
         const { sourceCode, linkID } = req.body;
-        console.log("updating")
 
         const hash_code = (source_code) => createHash("sha256").update(source_code).digest("hex");
         const hashed_code = hash_code(sourceCode);

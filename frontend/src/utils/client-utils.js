@@ -20,6 +20,14 @@ export const copyLink = async (copyIconPressed, setCopyIconPressed, codeURL) => 
         const copyIcon = document.querySelector(".copy-icon");
         const checkIcon = document.querySelector(".check-icon");
 
+        /* 
+                // Reset the button after 3 secs
+                setTimeout(() => {
+                    setCopyIconPressed(false); // make the button pressable again
+                    copyIcon.classList.remove("hidden");
+                    checkIcon.classList.toggle("hidden");
+                }, 3000); */
+
         setCopyIconPressed(true); // prevents from clicking the button again ang again
         copyIcon.classList.toggle("hidden");
         checkIcon.classList.remove("hidden");

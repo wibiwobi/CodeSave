@@ -144,8 +144,8 @@ const CodePage = () => {
                 <div className="version-name text-[#E8E5DC] jersey-25-regular text-[15px] md:text-[17px] tracking-wide">
                   Version 1
                 </div>
-                <div className="created-date text-[#C5A882]/50 jersey-25-regular text-[11px] tracking-[0.14em] uppercase mt-1">
-                  January 25 2026
+                <div className="created-date-time text-[#C5A882]/50 jersey-25-regular text-[11px] tracking-[0.14em] uppercase mt-1">
+                  2026-04-18 23:55:38
                 </div>
               </div>
             </div>
